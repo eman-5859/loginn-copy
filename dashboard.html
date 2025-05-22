@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+     
+        /* Logout Button - styles kept for dashboard-specific logout */
+        .logout-btn {
+            background: #ff3333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+        
+        .logout-btn:hover {
+            background: #ff0000;
+            transform: scale(1.05);
+        }
+
+        /* Time Display - styles kept for dashboard-specific profile info (if any) */
+        .time-display {
+            font-size: 10px;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="pixel-grid"></div>
+    
+    <div class="floating-game" style="top: 20%; left: 10%; width: 50px; height: 50px; background: url('https://i.imgur.com/3ZQ9Z9X.png') center/contain no-repeat;"></div>
+    <div class="floating-game" style="top: 70%; left: 80%; width: 70px; height: 70px; background: url('https://i.imgur.com/5Q9Z9X3.png') center/contain no-repeat;"></div>
+    <div class="floating-game" style="top: 40%; left: 85%; width: 40px; height: 40px; background: url('https://i.imgur.com/7Q9Z9X4.png') center/contain no-repeat;"></div>
+    <div class="floating-game" style="top: 80%; left: 15%; width: 60px; height: 60px; background: url('https://i.imgur.com/9Q9Z9X5.png') center/contain no-repeat;"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <p>The Game Zone</p>
+            </div>
+            <ul class="navbar">
+                <li><a href="#" class="active">HOME</a></li>
+                <li><a href="games/tictactoe.html">TIC TAC TOE</a></li>
+                <li><a href="games/snake.html">SNAKE</a></li>
+                <li><a href="games/chess.html">CHESS</a></li>
+                <li><a href="games/f.html">FLAPPY BIRD</a></li>
+                <li><a href="profile.html" id="profile-link">PROFILE</a></li> 
+            </ul>
+            <button type="button" id="btn"><i class="fas fa-play"></i>PLAY NOW</button>
+        </header>
+
+        <div class="content-wrapper">
+            <div class="content-desc">
+                <h1>GAME ZONE</h1>
+                <p>Compete with <span>RAKUTO</span> in this immense challenge and be the winner of all Time.</p>
+                <p>Our Top Players are waiting for your challenge, click the button below to get started.</p>
+                <button id="btn2">CHALLENGE RAKUTO NOW</button>
+            </div>
+            <div class="rakuto"></div>
+        </div>
+        
+        <div class="console-effect">
+            <div class="console-text">
+                PLAYER_ONE JOINED THE ARENA... HIGH SCORE: <span id="live-high-score">0</span>... WARNING: RAKUTO IS NEARBY... PRESS START TO BEGIN...
+            </div>
+        </div>
+    </div>
+
+    <div class="logo-section">
+        <i class="fas fa-gamepad"></i>
+        <h1 id="gameTitle"></h1>
+    </div>
+    
+     <section class="section-1 section-hidden" id="gameSection">
+        <div class="section-1-wrapper">  
+            <div class="section-1-img">
+                <a data-bg="snakebg.png" href="games/snake.html"><div class="img img-1"></div></a>
+                <a data-bg="chessbg.png" href="games/chess.html"><div class="img img-2"></div></a>
+                <a data-bg="tictctoebg.png" href="games/tictactoe.html"><div class="img img-3"></div></a>
+                <a data-bg="flappybird.jpg" href="games/f.html"><div class="img img-4"></div></a> </div>
+        </div>
+    </section>
+
+    <section class="section-2 section-hidden">
+        <h1>The Grande Match</h1>
+        <div class="players-container">
+            <div class="players">
+                <div class="p-image p-image-1"></div>
+                <span>Vaklish</span>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+            <div class="players">
+                <div class="p-image p-image-2"></div>
+                <span>Lontona</span>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+            <div class="players">
+                <div class="p-image p-image-3"></div>
+                <span>Vickish</span>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+            <div class="players">
+                <div class="p-image p-image-4"></div>
+                <span>Pakito</span>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+    <section class="section-3 section-hidden">
+        <div class="section-3">
+            <h1>What People say About us</h1>
+            <div class="section-3-wrapper">
+                <div class="feedback"></div>
+                <div class="feedback-desc">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum delectus error, 
+                    tempora laborum, voluptas magnam animi quo repudiandae asperiores 
+                    totam dolore commodi perspiciatis sapiente accusamus alias non vitae incidunt nisi!</p>
+                    <br>
+                    <i class="far fa-grin-squint-tears"></i><br>
+                    <h4>OSCAR</h4>
+                </div>
+                <div class="feedback f-img-2"></div>
+                <div class="feedback-desc">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum delectus error, 
+                    tempora laborum, voluptas magnam animi quo repudiandae asperiores 
+                    totam dolore commodi perspiciatis sapiente accusamus alias non vitae incidunt nisi!</p>
+                    <br>
+                    <i class="far fa-grin-beam-sweat"></i><br>
+                    <h4>MARIO</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-body">
+            <div class="logo footer-logo">
+                <i class="fas fa-gamepad"></i>
+                <h1>The Game Zone</h1>
+            </div>
+            <ul>
+                <h3>Short Links</h3>
+                <li><a href="#">Arcade</a></li>
+                <li><a href="#">War Zone</a></li>
+                <li><a href="#">Fifa Game</a></li>
+                <li><a href="#">Pes 2020</a></li>
+                <li><a href="#">Xbox Game</a></li>
+            </ul>
+            <ul>
+                <h3>Action Games</h3>
+                <li><a href="#">Anpar</a></li>
+                <li><a href="#">BattleField</a></li>
+                <li><a href="#">The Ghost</a></li>
+                <li><a href="#">Fortnite</a></li>
+                <li><a href="#">Cold War</a></li>
+            </ul>
+            <ul>
+                <h3>Get In Touch</h3>
+                <li><a href="#"><i class="fab fa-facebook"></i>Facebook</a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i>Instagram</a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i>Twitter</a></li>
+                <li><a href="#"><i class="fab fa-linkedin"></i>Linkedin</a></li>
+            </ul>
+        </div>
+    </footer>
+    
+    <div class="footer-bottom">
+        <p>Copyright &copy; All Right Reserved | Designed <span>By Almarex</span> 2021</p>
+    </div>
+   
+    <script>
+        // Global user object
+        let currentUser = {
+            username: null,
+            scores: {
+                snake: 0,
+                tictactoe: 0,
+                chess: 0,
+                flappy: 0
+            },
+            last_login: null,
+            last_played: null,
+            last_played_at: null,
+            high_score: 0
+        };
+        
+        // DOM Elements (removed profile-specific ones from here)
+        // const profileLoading = document.getElementById('profile-loading');
+        // const profileError = document.getElementById('profile-error');
+        const scoreUpdateMessage = document.getElementById('score-update-message'); // Still needed for other messages if any
+        const logoutBtn = document.getElementById('logout-btn');
+        const profileLink = document.getElementById('profile-link'); // Added to ensure URL parameter is passed
+
+        // Format date for display (kept for general utility if needed elsewhere)
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString();
+            } catch (e) {
+                console.error('Error formatting date:', e);
+                return '-';
+            }
+        }
+
+        // Format time for display (kept for general utility if needed elsewhere)
+        function formatTime(dateString) {
+            if (!dateString) return '';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleTimeString();
+            } catch (e) {
+                console.error('Error formatting time:', e);
+                return '';
+            }
+        }
+        
+        // Format game name for display (kept for general utility)
+        function formatGameName(game) {
+            const names = {
+                'snake': 'Snake',
+                'tictactoe': 'Tic Tac Toe',
+                'chess': 'Chess',
+                'flappy': 'Flappy Bird'
+            };
+            return names[game] || game;
+        }
+        
+        // Update profile display with user data (kept for dashboard elements like overall high score)
+        function updateProfile(userData) {
+            currentUser = {...currentUser, ...userData};
+            
+            // document.getElementById('profile-username').textContent = currentUser.username || 'Guest'; // Removed as profile section is gone
+            
+            // Last login display (removed as profile section is gone)
+            // const lastLoginDate = formatDate(currentUser.last_login);
+            // const lastLoginTime = formatTime(currentUser.last_login);
+            // document.getElementById('last-login').textContent = lastLoginDate;
+            // document.getElementById('last-login-time').textContent = lastLoginTime;
+            
+            // Last played display (removed as profile section is gone)
+            // let lastPlayedText = '-';
+            // let lastPlayedTime = '';
+            // if (currentUser.last_played) {
+            //     lastPlayedText = formatGameName(currentUser.last_played);
+            //     lastPlayedTime = formatTime(currentUser.last_played_at);
+            // }
+            // document.getElementById('last-played').textContent = lastPlayedText;
+            // document.getElementById('last-played-time').textContent = lastPlayedTime;
+            
+            // Update scores (removed direct profile score updates, only overall high score might remain)
+            // document.getElementById('snake-score').textContent = currentUser.scores?.snake || '0';
+            // document.getElementById('tictactoe-score').textContent = currentUser.scores?.tictactoe || '0';
+            // document.getElementById('chess-score').textContent = currentUser.scores?.chess || '0';
+            // document.getElementById('flappy-score').textContent = currentUser.scores?.flappy || '0';
+            // document.getElementById('high-score').textContent = currentUser.high_score || '0'; // If you have an overall high score display on dashboard
+
+            // Update live high score in console effect
+            if (document.getElementById('live-high-score')) {
+                document.getElementById('live-high-score').textContent = currentUser.high_score.toLocaleString() || '0';
+            }
+        }
+
+        // Fetch user data from server (Still needed for dashboard's current user context)
+        async function fetchUserData(username) {
+            try {
+                // profileLoading.style.display = 'inline-block'; // Removed
+                // profileError.style.display = 'none'; // Removed
+
+                const response = await fetch(`/api/get-scores?username=${username}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    updateProfile(data.data); // Update dashboard elements with fetched data
+                    localStorage.setItem('currentUser', JSON.stringify(data.data)); // Update local storage
+                } else {
+                    console.error("Failed to fetch user data:", data.message);
+                    // showMessage(`Failed to load dashboard data: ${data.message}`, 'error'); // If you want to show errors on dashboard
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                // showMessage('Error connecting to server to load dashboard data.', 'error'); // If you want to show errors on dashboard
+            } finally {
+                // profileLoading.style.display = 'none'; // Removed
+            }
+        }
+        
+        // Save game score to server (used only for actual score submission)
+        async function saveGameScore(game, score, result = null) { // Added result parameter for chess
+            if (!currentUser.username) {
+                console.log('No user logged in, score not saved');
+                return {success: false, message: 'Not logged in'};
+            }
+            
+            try {
+                if (scoreUpdateMessage) scoreUpdateMessage.style.display = 'none';
+                
+                const payload = {
+                    username: currentUser.username,
+                    game: game,
+                    score: score
+                };
+                if (game === 'chess' && result) {
+                    payload.result = result;
+                }
+
+                const response = await fetch('/api/save-score', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to save score');
+                }
+                
+                if (data.success) {
+                    await fetchUserData(currentUser.username); // Re-fetch to update all stats, including overall high score on dashboard
+                    if (scoreUpdateMessage) showMessage(`Score saved for ${formatGameName(game)}: ${score}. ${data.message || ''}`, 'success');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('Error saving score:', error);
+                if (scoreUpdateMessage) showMessage(error.message || 'Failed to save score', 'error');
+                return {success: false, message: error.message};
+            }
+        }
+
+        // NEW: Report game start to server (for last_played)
+        async function reportGameStart(game) {
+            if (!currentUser.username) {
+                console.warn('No user logged in, cannot report game start.');
+                return;
+            }
+            try {
+                const response = await fetch('/api/start-game', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentUser.username, game: game })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    console.log(`Game start reported for ${game}`);
+                    // Optimistically update last played in UI if such elements exist on dashboard,
+                    // otherwise, rely on the profile page to fetch full data.
+                    currentUser.last_played = game;
+                    currentUser.last_played_at = new Date().toISOString();
+                    // if (document.getElementById('last-played')) document.getElementById('last-played').textContent = formatGameName(game);
+                    // if (document.getElementById('last-played-time')) document.getElementById('last-played-time').textContent = formatTime(currentUser.last_played_at);
+                } else {
+                    console.warn(`Failed to report game start for ${game}:`, data.message);
+                }
+            } catch (error) {
+                console.error('Error reporting game start:', error);
+            }
+        }
+        
+        // Show status message (re-used for dashboard if needed)
+        function showMessage(message, type = 'success') {
+            // This function might need adjustment if you have specific message display areas on dashboard
+            const element = scoreUpdateMessage; // Assuming scoreUpdateMessage is still the main message area on dashboard
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
+                element.className = type === 'success' ? 'success-message' : 'error-message';
+                
+                if (type === 'success') {
+                    setTimeout(() => {
+                        element.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        }
+        
+        // Initialize with the logged in user
+        function initializeUser() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlUser = urlParams.get('user');
+            const storedUser = localStorage.getItem('currentUser');
+            
+            if (urlUser || storedUser) {
+                try {
+                    const userData = storedUser ? JSON.parse(storedUser) : { username: urlUser };
+                    currentUser.username = userData.username;
+                    
+                    // Update UI immediately with known data
+                    updateProfile({
+                        username: userData.username,
+                        last_login: userData.last_login || new Date().toISOString() // Use a default if not present
+                    });
+                    
+                    // Update the profile link to include the username
+                    if (profileLink) {
+                        profileLink.href = `profile.html?user=${encodeURIComponent(currentUser.username)}`;
+                    }
+
+                    // Then fetch full profile data from the server for dashboard elements
+                    fetchUserData(userData.username);
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                    // showMessage('Error loading dashboard', 'error'); // If you want to show errors
+                    setTimeout(() => window.location.href = 'ind.html', 3000);
+                }
+            } else {
+                window.location.href = 'ind.html';
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'ind.html';
+        }
+        
+        // Game click handlers to report last played game
+        document.querySelectorAll('.navbar a, .section-1-img a').forEach(link => {
+            // Exclude HOME and PROFILE links from reporting game start
+            const linkText = link.textContent.trim().toLowerCase();
+            if (linkText !== 'home' && linkText !== 'profile') { // Keep 'profile' excluded
+                link.addEventListener('click', function(event) {
+                    const path = this.getAttribute('href');
+                    const gameHtmlFile = path.substring(path.lastIndexOf('/') + 1);
+                    let gameName = '';
+
+                    // Derive game name from filename, mapping f.html to flappy
+                    if (gameHtmlFile === 'tictactoe.html') {
+                        gameName = 'tictactoe';
+                    } else if (gameHtmlFile === 'snake.html') {
+                        gameName = 'snake';
+                    } else if (gameHtmlFile === 'chess.html') {
+                        gameName = 'chess';
+                    } else if (gameHtmlFile === 'f.html' || gameHtmlFile === 'flappy.html') { // Handle both potential flappy paths
+                        gameName = 'flappy';
+                    }
+
+                    if (gameName && currentUser.username) {
+                        reportGameStart(gameName); // Call the new endpoint
+                    } else if (!currentUser.username) {
+                        console.warn("User not logged in, cannot report game start.");
+                        // Potentially redirect to login or show a message
+                    }
+                });
+            }
+        });
+        
+        // Logout button handler
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', logout);
+        }
+        
+        // Initialize title animation
+        const title = " GAME  ZONE";
+        const titleElement = document.getElementById('gameTitle');
+        
+        title.split('').forEach((letter, index) => {
+            const span = document.createElement('span');
+            span.textContent = letter === '  ' ? '   ' : letter;
+            span.style.animationDelay = `${index * 0.1}s`;
+            titleElement.appendChild(span);
+        });
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeUser();
+            
+            // Set up section reveal animation
+            const allSections = document.querySelectorAll('section');
+            const revealSection = function(entries, observer) {
+                const [entry] = entries;
+                if (!entry.isIntersecting) return;
+                entry.target.classList.remove('section-hidden');
+                observer.unobserve(entry.target);
+            };
+            
+            const sectionObserver = new IntersectionObserver(revealSection, {
+                root: null,
+                threshold: 0.15,
+            });
+            
+            allSections.forEach(function(section) {
+                sectionObserver.observe(section);
+                section.classList.add('section-hidden');
+            });
+            
+            // REMOVED: No longer making profile section visible immediately on dashboard
+            // document.getElementById('profile').classList.remove('section-hidden');
+
+            // After animation completes, add a class for hover effects
+            setTimeout(() => {
+                titleElement.classList.add('animated');
+            }, title.length * 200 + 800);
+            
+            // Background hover effect for game sections
+            const gameSection = document.getElementById("gameSection");
+            const gameLinks = document.querySelectorAll("a[data-bg]");
+            
+            gameLinks.forEach(el => {
+                el.addEventListener("mouseover", () => {
+                    let bg = el.getAttribute("data-bg");
+                    gameSection.style.background = `url(${bg}) no-repeat center/cover`;
+                });
+            });
+        });
+        
+        // Add interactive sound effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('button, a');
+            
+            // Button hover effect
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    const hoverSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3');
+                    hoverSound.volume = 0.3;
+                    hoverSound.play().catch(e => console.log("Sound play failed:", e));
+                    
+                    button.style.transform = 'scale(1.05)';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'scale(1)';
+                });
+                
+                button.addEventListener('click', () => {
+                    const clickSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-quick-jump-arcade-game-239.mp3');
+                    clickSound.volume = 0.5;
+                    clickSound.play().catch(e => console.log("Sound play failed:", e));
+                });
+            });
+            
+            // Add particle effect on challenge button
+            const challengeBtn = document.getElementById('btn2');
+            if (challengeBtn) { // Check if element exists
+                challengeBtn.addEventListener('click', function(e) {
+                    createParticles(e.clientX, e.clientY);
+                });
+            }
+            
+            function createParticles(x, y) {
+                const particles = 15;
+                for (let i = 0; i < particles; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    particle.style.width = '10px';
+                    particle.style.height = '10px';
+                    particle.style.backgroundColor = '#FEC53A';
+                    particle.style.borderRadius = '50%';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    particle.style.zIndex = '100';
+                    
+                    document.body.appendChild(particle);
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 2 + Math.random() * 3;
+                    const lifetime = 1000 + Math.random() * 500;
+                    
+                    const xVel = Math.cos(angle) * velocity;
+                    const yVel = Math.sin(angle) * velocity;
+                    
+                    let posX = x;
+                    let posY = y;
+                    let opacity = 1;
+                    
+                    const animate = () => {
+                        posX += xVel;
+                        posY += yVel;
+                        opacity -= 0.02;
+                        
+                        particle.style.left = `${posX}px`;
+                        particle.style.top = `${posY}px`;
+                        particle.style.opacity = opacity;
+                        
+                        if (opacity > 0) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            particle.remove();
+                        }
+                    };
+                    
+                    animate();
+                }
+            }
+            
+            // Add floating game elements periodically
+            setInterval(() => {
+                const games = [
+                    'https://i.imgur.com/3ZQ9Z9X.png', // pacman
+                    'https://i.imgur.com/5Q9Z9X3.png', // space invader
+                    'https://i.imgur.com/7Q9Z9X4.png', // tetris
+                    'https://i.imgur.com/9Q9Z9X5.png'  // mario
+                ];
+                
+                const game = document.createElement('div');
+                game.className = 'floating-game';
+                game.style.top = `${Math.random() * 100}%`;
+                game.style.left = `${Math.random() * 100}%`;
+                game.style.width = `${30 + Math.random() * 50}px`;
+                game.style.height = game.style.width;
+                game.style.background = `url('${games[Math.floor(Math.random() * games.length)]}') center/contain no-repeat`;
+                game.style.opacity = '0.2';
+                game.style.animationDuration = `${10 + Math.random() * 20}s`;
+                
+                document.body.appendChild(game);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    game.remove();
+                }, 30000);
+            }, 2000);
+        });
+        
+        // The following simulate functions are no longer directly used but kept for reference if needed
+        async function simulateFetchUserData(username) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    if (username) {
+                        resolve({
+                            success: true,
+                            user: {
+                                username: username,
+                                scores: {
+                                    snake: Math.floor(Math.random() * 1000),
+                                    tictactoe: Math.floor(Math.random() * 50),
+                                    chess: Math.floor(Math.random() * 30),
+                                    flappy: Math.floor(Math.random() * 500)
+                                },
+                                high_score: Math.floor(Math.random() * 5000),
+                                last_login: new Date().toISOString()
+                            },
+                            message: 'User data loaded'
+                        });
+                    } else {
+                        resolve({
+                            success: false,
+                            message: 'Username is required'
+                        });
+                    }
+                }, 1000);
+            });
+        }
+        
+        async function simulateSaveScore(username, game, score) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    if (username && game) {
+                        resolve({
+                            success: true,
+                            message: `Score saved for ${game}`,
+                            data: {
+                                game: game,
+                                score: score
+                            }
+                        });
+                    } else {
+                        resolve({
+                            success: false,
+                            message: 'Failed to save score'
+                        });
+                    }
+                }, 800);
+            });
+        }
+    </script>
+</body>
+</html>

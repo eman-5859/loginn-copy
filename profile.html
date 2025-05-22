@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="h.css"> <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* Profile Section Styles */
+        body {
+            background: #1a1a2e; /* Dark background similar to dashboard */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px; /* Add some padding */
+            box-sizing: border-box;
+        }
+        .profile-section {
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #FEC53A;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 700px;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            box-shadow: 0 0 20px rgba(254, 197, 58, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff00cc, #3333ff, #00ccff, #33cc33);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.3;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .profile-header {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #FEC53A;
+            text-shadow: 0 0 10px rgba(254, 197, 58, 0.7);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #FEC53A;
+        }
+        
+        .profile-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            background: rgba(254, 197, 58, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .stat-label {
+            color: #FEC53A;
+            font-size: 14px;
+        }
+        
+        .stat-value {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .high-scores {
+            margin-top: 25px;
+        }
+        
+        .game-score {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 8px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            border-left: 4px solid #FEC53A;
+            transition: all 0.3s ease;
+        }
+        
+        .game-score:hover {
+            background: rgba(254, 197, 58, 0.2);
+            transform: translateX(5px);
+        }
+        
+        /* Loading Animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #FEC53A;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        /* Error Message */
+        .error-message {
+            color: #ff3333;
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: center;
+        }
+        
+        /* Success Message */
+        .success-message {
+            color: #33ff33;
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: center;
+        }
+        
+        /* Logout Button */
+        .logout-btn {
+            background: #ff3333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+        
+        .logout-btn:hover {
+            background: #ff0000;
+            transform: scale(1.05);
+        }
+
+        /* Time Display */
+        .time-display {
+            font-size: 10px;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+
+        /* Home Button - Added for navigation back to dashboard */
+        .home-btn {
+            background: #3333ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 10px; /* Adjust margin */
+        }
+
+        .home-btn:hover {
+            background: #0000cc;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-section">
+        <div class="profile-header">PLAYER PROFILE</div>
+        <div id="profile-loading" class="loading" style="display: none;"></div>
+        <div id="profile-error" class="error-message" style="display: none;"></div>
+        
+        <div class="profile-stats">
+            <div class="stat-item">
+                <span class="stat-label">USERNAME:</span>
+                <span class="stat-value" id="profile-username">Loading...</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">LAST LOGIN:</span>
+                <div>
+                    <span class="stat-value" id="last-login">-</span>
+                    <div class="time-display" id="last-login-time"></div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">LAST PLAYED:</span>
+                <div>
+                    <span class="stat-value" id="last-played">-</span>
+                    <div class="time-display" id="last-played-time"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="high-scores">
+            <div class="profile-header">GAME STATS</div>
+            <div class="game-score">
+                <span>SNAKE HIGH SCORE:</span>
+                <span id="snake-score">0</span>
+            </div>
+            <div class="game-score">
+                <span>TIC TAC TOE WINS:</span>
+                <span id="tictactoe-score">0</span>
+            </div>
+            <div class="game-score">
+                <span>CHESS WINS:</span>
+                <span id="chess-score">0</span>
+            </div>
+            <div class="game-score">
+                <span>FLAPPY BIRD HIGH SCORE:</span>
+                <span id="flappy-score">0</span>
+            </div>
+            <div class="game-score">
+                <span>OVERALL HIGH SCORE:</span>
+                <span id="high-score">0</span>
+            </div>
+        </div>
+        
+        <div id="score-update-message" class="success-message" style="display: none;"></div>
+        
+        <button class="home-btn" onclick="window.location.href='dashboard.html'">BACK TO DASHBOARD</button>
+        <button class="logout-btn" id="logout-btn">LOGOUT</button>
+    </div>
+
+    <script>
+        // Global user object
+        let currentUser = {
+            username: null,
+            scores: {
+                snake: 0,
+                tictactoe: 0,
+                chess: 0,
+                flappy: 0
+            },
+            last_login: null,
+            last_played: null,
+            last_played_at: null,
+            high_score: 0
+        };
+        
+        // DOM Elements
+        const profileLoading = document.getElementById('profile-loading');
+        const profileError = document.getElementById('profile-error');
+        const scoreUpdateMessage = document.getElementById('score-update-message');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Format date for display
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString();
+            } catch (e) {
+                console.error('Error formatting date:', e);
+                return '-';
+            }
+        }
+
+        // Format time for display
+        function formatTime(dateString) {
+            if (!dateString) return '';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleTimeString();
+            } catch (e) {
+                console.error('Error formatting time:', e);
+                return '';
+            }
+        }
+        
+        // Format game name for display
+        function formatGameName(game) {
+            const names = {
+                'snake': 'Snake',
+                'tictactoe': 'Tic Tac Toe',
+                'chess': 'Chess',
+                'flappy': 'Flappy Bird'
+            };
+            return names[game] || game;
+        }
+        
+        // Update profile display with user data
+        function updateProfile(userData) {
+            currentUser = {...currentUser, ...userData};
+            
+            document.getElementById('profile-username').textContent = currentUser.username || 'Guest';
+            
+            // Last login display
+            const lastLoginDate = formatDate(currentUser.last_login);
+            const lastLoginTime = formatTime(currentUser.last_login);
+            document.getElementById('last-login').textContent = lastLoginDate;
+            document.getElementById('last-login-time').textContent = lastLoginTime;
+            
+            // Last played display
+            let lastPlayedText = '-';
+            let lastPlayedTime = '';
+            if (currentUser.last_played) {
+                lastPlayedText = formatGameName(currentUser.last_played);
+                lastPlayedTime = formatTime(currentUser.last_played_at);
+            }
+            document.getElementById('last-played').textContent = lastPlayedText;
+            document.getElementById('last-played-time').textContent = lastPlayedTime;
+            
+            // Update scores
+            document.getElementById('snake-score').textContent = currentUser.scores?.snake || '0';
+            document.getElementById('tictactoe-score').textContent = currentUser.scores?.tictactoe || '0';
+            document.getElementById('chess-score').textContent = currentUser.scores?.chess || '0';
+            document.getElementById('flappy-score').textContent = currentUser.scores?.flappy || '0';
+            document.getElementById('high-score').textContent = currentUser.high_score || '0';
+        }
+
+        // Fetch user data from server
+        async function fetchUserData(username) {
+            try {
+                profileLoading.style.display = 'inline-block';
+                profileError.style.display = 'none';
+
+                const response = await fetch(`/api/get-scores?username=${username}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    updateProfile(data.data); // Update all profile elements with fetched data
+                    localStorage.setItem('currentUser', JSON.stringify(data.data)); // Update local storage
+                } else {
+                    console.error("Failed to fetch user data:", data.message);
+                    showMessage(`Failed to load profile: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                showMessage('Error connecting to server to load profile.', 'error');
+            } finally {
+                profileLoading.style.display = 'none';
+            }
+        }
+        
+        // Show status message
+        function showMessage(message, type = 'success') {
+            const element = type === 'success' ? scoreUpdateMessage : profileError;
+            element.textContent = message;
+            element.style.display = 'block';
+            element.className = type === 'success' ? 'success-message' : 'error-message';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        // Initialize with the logged in user
+        function initializeUser() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlUser = urlParams.get('user');
+            const storedUser = localStorage.getItem('currentUser');
+            
+            if (urlUser || storedUser) {
+                try {
+                    const userData = storedUser ? JSON.parse(storedUser) : { username: urlUser };
+                    currentUser.username = userData.username;
+                    
+                    // Update UI immediately with known data
+                    updateProfile({
+                        username: userData.username,
+                        last_login: userData.last_login || new Date().toISOString() // Use a default if not present
+                    });
+                    
+                    // Then fetch full profile data from the server
+                    fetchUserData(userData.username);
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                    showMessage('Error loading profile', 'error');
+                    setTimeout(() => window.location.href = 'ind.html', 3000);
+                }
+            } else {
+                window.location.href = 'ind.html'; // Redirect to login if no user
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'ind.html';
+        }
+        
+        // Logout button handler
+        logoutBtn.addEventListener('click', logout);
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', initializeUser);
+    </script>
+</body>
+</html>

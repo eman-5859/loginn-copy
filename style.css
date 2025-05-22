@@ -1,0 +1,281 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    image-rendering: pixelated;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #1a1a2e;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ .container {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background: none;          /* removed old image */
+    }
+    /* Game canvas sits underneath all content */
+    #gameCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      background: transparent;
+      pointer-events: none;      /* let clicks go through to page */
+    }
+    /* push everything else above the canvas */
+    .container > *:not(#gameCanvas) {
+      position: relative;
+      z-index: 1;
+    }
+    /* Button styling override to match new theme */
+    #btn, #btn2 {
+      background: #007acc;
+      color: #fff;
+    }
+    #btn:hover, #btn2:hover {
+      background: #005fa3;
+    }
+.pixel-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: #0f1923;
+}
+
+.pixel {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: float 15s linear infinite;
+    opacity: 0.7;
+    transition: all 0.3s;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(360deg); }
+}
+
+@keyframes float-alt {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); }
+    25% { transform: translateX(20px) translateY(-50px) rotate(90deg); }
+    50% { transform: translateX(0) translateY(-100px) rotate(180deg); }
+    75% { transform: translateX(-20px) translateY(-150px) rotate(270deg); }
+    100% { transform: translateX(0) translateY(-200px) rotate(360deg); }
+}
+
+.login-container {
+    width: 320px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 4px solid #2200ff;
+    box-shadow: 0 0 10px #2200ff, inset 0 0 10px #2200ff;
+    position: relative;
+    z-index: 2;
+}
+
+.pixel-logo {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #00ffff;
+    text-shadow: 3px 3px 0 #2200ff, 5px 5px 0 #000;
+    letter-spacing: 2px;
+}
+
+.pixel-logo span {
+    color: #2200ff;
+}
+
+.pixel-input {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.pixel-input input {
+    width: 100%;
+    padding: 10px;
+    background: #000;
+    border: none;
+    color: #0f0;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    outline: none;
+}
+
+.pixel-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #00ffff;
+    box-shadow: 0 2px 0 #2200ff;
+}
+
+.pixel-button {
+    width: 100%;
+    padding: 12px;
+    background: #2200ff;
+    color: #fff;
+    border: none;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.pixel-button:hover {
+    background: #00ffff;
+    box-shadow: 0 0 10px #00ffff;
+    animation: glitch 0.5s linear infinite;
+}
+
+.pixel-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 10px;
+}
+
+.pixel-links a {
+    color: #ffff00;
+    text-decoration: none;
+}
+
+.pixel-links a:hover {
+    color: #2200ff;
+}
+
+.pixel-score {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #ffff00;
+    animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+@keyframes pulse {
+    from { background-color: #2200ff; box-shadow: 0 0 5px #2200ff; }
+    to { background-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+.login-form, .signup-form {
+    transition: all 0.5s ease;
+}
+
+.login-form:not(.active-form), 
+.signup-form:not(.active-form) {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+.active-form {
+    opacity: 1;
+    pointer-events: all;
+}
+
+input[type="email"] {
+    font-family: 'Press Start 2P', cursive;
+    color: #0f0;
+}
+
+.password-match {
+    font-size: 10px;
+    text-align: center;
+    margin-top: 5px;
+    height: 12px;
+}
+
+.match {
+    color: #0f0;
+}
+
+.no-match {
+    color: #f00;
+}
+
+.sound-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    background: #000;
+    border: 2px solid #00ffff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.sound-toggle:hover {
+    border-color: #2200ff;
+}
+
+/* Pixel Explosion Styles */
+.pixel-explosion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+    pointer-events: none;
+}
+
+.explosion-pixel {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: explode 2s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3) translate(var(--x), var(--y));
+        opacity: 0;
+    }
+}
+
