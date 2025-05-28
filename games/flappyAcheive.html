@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird Achievements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: -2;
+        }
+
+        .pixel-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+            animation: drift 20s linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
+        }
+
+        .achievements-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 15px;
+            border: 3px solid #05d9e8;
+            box-shadow: 
+                0 0 30px rgba(5, 217, 232, 0.4),
+                inset 0 0 20px rgba(5, 217, 232, 0.1);
+            position: relative;
+        }
+
+        .achievements-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #05d9e8;
+            text-shadow: 0 0 15px #05d9e8;
+            font-size: 2rem;
+            position: relative;
+        }
+
+        .achievements-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #05d9e8, transparent);
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: rgba(5, 217, 232, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(5, 217, 232, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(5, 217, 232, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .stat-box:hover::before {
+            left: 100%;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            border-color: #05d9e8;
+            box-shadow: 0 10px 25px rgba(5, 217, 232, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #05d9e8;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #05d9e8;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #aaa;
+            letter-spacing: 1px;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            border-left: 5px solid #555;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .achievement-item:hover::before {
+            left: 100%;
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .achievement-earned {
+            border-left-color: #FFD700 !important;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .achievement-earned:hover {
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-right: 25px;
+            min-width: 60px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-earned .achievement-icon {
+            color: #FFD700;
+            text-shadow: 0 0 15px #FFD700;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .achievement-locked .achievement-icon {
+            color: #555;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #FFD700; }
+            to { text-shadow: 0 0 20px #FFD700, 0 0 30px #FFD700; }
+        }
+
+        .achievement-details {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .achievement-desc {
+            font-size: 0.8rem;
+            color: #bbb;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .achievement-progress {
+            height: 8px;
+            background: #333;
+            border-radius: 10px;
+            margin-top: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #05d9e8, #04c2d1);
+            width: 0%;
+            transition: width 0.8s ease;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .achievement-badge {
+            font-size: 0.6rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-left: 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .rarity-common { border-left-color: #888; }
+        .rarity-common .achievement-badge { background: #888; }
+
+        .rarity-uncommon { border-left-color: #00ff87; }
+        .rarity-uncommon .achievement-badge { background: #00ff87; color: #000; }
+
+        .rarity-rare { border-left-color: #05d9e8; }
+        .rarity-rare .achievement-badge { background: #05d9e8; }
+
+        .rarity-epic { border-left-color: #d300c5; }
+        .rarity-epic .achievement-badge { background: #d300c5; }
+
+        .rarity-legendary { border-left-color: #FFD700; }
+        .rarity-legendary .achievement-badge { background: #FFD700; color: #000; }
+
+        .back-button {
+            display: block;
+            margin: 40px auto 10px;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #05d9e8, #04c2d1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            width: 280px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.3s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(5, 217, 232, 0.3);
+        }
+
+        .progress-text {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            background: rgba(5, 217, 232, 0.2);
+            border: 1px solid #05d9e8;
+            border-radius: 5px;
+            color: #05d9e8;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #05d9e8;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .achievements-container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .achievements-header {
+                font-size: 1.5rem;
+            }
+
+            .achievement-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .achievement-icon {
+                margin: 0 0 15px 0;
+            }
+
+            .back-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="pixel-grid"></div>
+    
+    <div class="achievements-container">
+        <h1 class="achievements-header">
+            <i class="fas fa-trophy"></i> FLAPPY BIRD ACHIEVEMENTS
+        </h1>
+        
+        <div class="stats-summary">
+            <div class="stat-box">
+                <div class="stat-value" id="high-score">0</div>
+                <div class="stat-label">HIGH SCORE</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="total-flights">0</div>
+                <div class="stat-label">TOTAL FLIGHTS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="total-pipes">0</div>
+                <div class="stat-label">PIPES PASSED</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="achievements-earned">0</div>
+                <div class="stat-label">ACHIEVEMENTS</div>
+            </div>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterAchievements('all')">ALL</button>
+            <button class="filter-btn" onclick="filterAchievements('earned')">EARNED</button>
+            <button class="filter-btn" onclick="filterAchievements('locked')">LOCKED</button>
+            <button class="filter-btn" onclick="filterAchievements('legendary')">LEGENDARY</button>
+        </div>
+        
+        <div id="achievements-list">
+            <!-- Achievements will be loaded here -->
+        </div>
+        
+        <a href="../dashboard.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> BACK TO DASHBOARD
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            const username = storedUser ? storedUser.username : null;
+            
+  const flappyAchievements = [
+    { 
+        id: 'flappy_first_flight', 
+        title: 'First Flight', 
+        desc: 'Complete your first flight and begin your journey',
+        condition: (scores) => (scores.flappy_plays || 0) > 0,
+        progress: (scores) => (scores.flappy_plays || 0) > 0 ? 100 : 0,
+        rarity: 'common'
+    },
+    { 
+        id: 'flappy_getting_warmed_up', // Renamed to align with server
+        title: 'Getting Warmed Up', // Renamed to align with server
+        desc: 'Achieve a score of 5 in Flappy Bird.',
+        condition: (scores) => (scores.flappy || 0) >= 5, // Uses 'flappy' for score
+        progress: (scores) => Math.min((scores.flappy || 0) / 5 * 100, 100), // Uses 'flappy' for score
+        rarity: 'uncommon'
+    },
+    { 
+        id: 'flappy_steady_flyer', // Renamed to align with server
+        title: 'Steady Flyer', // Renamed to align with server
+        desc: 'Achieve a score of 10 points in a single game',
+        condition: (scores) => (scores.flappy || 0) >= 10, // Uses 'flappy' for score
+        progress: (scores) => Math.min((scores.flappy || 0) / 10 * 100, 100), // Uses 'flappy' for score
+        rarity: 'uncommon'
+    },
+    { 
+        id: 'flappy_sky_navigator', // Renamed to align with server
+        title: 'Sky Navigator', // Renamed to align with server
+        desc: 'Reach 20 points in a single game - true skill!', // Desc updated to match 20 from server
+        condition: (scores) => (scores.flappy || 0) >= 20, // Uses 'flappy' for score, matches server
+        progress: (scores) => Math.min((scores.flappy || 0) / 20 * 100, 100), // Uses 'flappy' for score, matches server
+        rarity: 'rare'
+    },
+    { 
+        id: 'flappy_ace_pilot', // Renamed to align with server
+        title: 'Ace Pilot', // Renamed to align with server
+        desc: 'Achieve a score of 30 points in a single game', // Desc updated to match 30 from server
+        condition: (scores) => (scores.flappy || 0) >= 30, // Uses 'flappy' for score, matches server
+        progress: (scores) => Math.min((scores.flappy || 0) / 30 * 100, 100), // Uses 'flappy' for score, matches server
+        rarity: 'rare'
+    },
+    { 
+        id: 'flappy_century_club', // Renamed to align with server
+        title: 'Century Club', // Renamed to align with server
+        desc: 'Score 100 points in a single game - exceptional!',
+        condition: (scores) => (scores.flappy || 0) >= 100, // Uses 'flappy' for high score
+        progress: (scores) => Math.min((scores.flappy || 0) / 100 * 100, 100), // Uses 'flappy' for high score
+        rarity: 'epic'
+    },
+    { 
+        id: 'flappy_marathon_flyer', // Renamed to align with server
+        title: 'Marathon Flyer', // Renamed to align with server
+        desc: 'Play 10 games - a true gaming marathon',
+        condition: (scores) => (scores.flappy_plays || 0) >= 10, // Uses 'flappy_plays'
+        progress: (scores) => Math.min((scores.flappy_plays || 0) / 10 * 100, 100), // Uses 'flappy_plays'
+        rarity: 'uncommon'
+    },
+    { 
+        id: 'flappy_dedication', // Renamed to align with server
+        title: 'Dedication', // Renamed to align with server
+        desc: 'Play 25 games - showing true commitment',
+        condition: (scores) => (scores.flappy_plays || 0) >= 25, // Uses 'flappy_plays'
+        progress: (scores) => Math.min((scores.flappy_plays || 0) / 25 * 100, 100), // Uses 'flappy_plays'
+        rarity: 'rare'
+    },
+    { 
+        id: 'flappy_flying_legend', // Renamed to align with server
+        title: 'Flying Legend', // Renamed to align with server
+        desc: 'Play 50 games - you are a true Flappy Bird legend', // Desc updated to match 50 plays from server
+        condition: (scores) => (scores.flappy_plays || 0) >= 50, // Uses 'flappy_plays'
+        progress: (scores) => Math.min((scores.flappy_plays || 0) / 50 * 100, 100), // Uses 'flappy_plays'
+        rarity: 'legendary'
+    },
+   
+
+];
+
+            let currentFilter = 'all';
+
+            function loadAchievements() {
+                const achievementsList = document.getElementById('achievements-list');
+                
+                if (!username) {
+                    achievementsList.innerHTML = `
+                        <div class="achievement-item" style="text-align: center; justify-content: center;">
+                            <div class="achievement-details">
+                                <p style="color: white;">Please log in to view your achievements</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                fetch(`/api/get-scores?username=${username}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const scores = data.data.scores || {};
+                            const earnedAchievements = scores.achievements?.flappybird || [];
+                            
+                            // Update stats
+                            document.getElementById('high-score').textContent = scores.flappy || '0';
+                            document.getElementById('total-flights').textContent = scores.flappy_plays || '0';
+                            document.getElementById('total-pipes').textContent = scores.total_pipes_passed || '10';
+                            
+                            // Count earned achievements
+                            const earnedCount = flappyAchievements.filter(achievement => 
+                                earnedAchievements.includes(achievement.id) || achievement.condition(scores)
+                            ).length;
+                            document.getElementById('achievements-earned').textContent = earnedCount;
+                            
+                            renderAchievements(achievementsList, scores, earnedAchievements);
+                        } else {
+                            achievementsList.innerHTML = `
+                                <div class="achievement-item" style="text-align: center; justify-content: center;">
+                                    <div class="achievement-details">
+                                        <p style="color: white;">${data.message}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading achievements:', error);
+                        achievementsList.innerHTML = `
+                            <div class="achievement-item" style="text-align: center; justify-content: center;">
+                                <div class="achievement-details">
+                                    <p style="color: white;">Error loading achievements. Please try again later.</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+            }
+
+            function renderAchievements(container, scores, earnedAchievements) {
+                container.innerHTML = '';
+                
+                let filteredAchievements = flappyAchievements;
+                
+                if (currentFilter === 'earned') {
+                    filteredAchievements = flappyAchievements.filter(achievement => 
+                        earnedAchievements.includes(achievement.id) || achievement.condition(scores)
+                    );
+                } else if (currentFilter === 'locked') {
+                    filteredAchievements = flappyAchievements.filter(achievement => 
+                        !earnedAchievements.includes(achievement.id) && !achievement.condition(scores)
+                    );
+                } else if (currentFilter === 'legendary') {
+                    filteredAchievements = flappyAchievements.filter(achievement => 
+                        achievement.rarity === 'legendary'
+                    );
+                }
+                
+                if (filteredAchievements.length === 0) {
+                    container.innerHTML = `
+                        <div class="achievement-item" style="text-align: center; justify-content: center;">
+                            <div class="achievement-details">
+                                <p style="color: white;">No achievements found for this filter</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                filteredAchievements.forEach((achievement, index) => {
+                    const isEarned = earnedAchievements.includes(achievement.id) || 
+                                    achievement.condition(scores);
+                    const progress = achievement.progress(scores);
+                    
+                    const achievementItem = document.createElement('div');
+                    achievementItem.className = `achievement-item rarity-${achievement.rarity}`;
+                    achievementItem.style.animationDelay = `${index * 0.1}s`;
+                    
+                    if (isEarned) {
+                        achievementItem.classList.add('achievement-earned');
+                    } else {
+                        achievementItem.classList.add('achievement-locked');
+                    }
+                    
+                    const icon = document.createElement('div');
+                    icon.className = 'achievement-icon';
+                    icon.innerHTML = isEarned ? 
+                        '<i class="fas fa-trophy"></i>' : 
+                        '<i class="fas fa-lock"></i>';
+                    
+                    const details = document.createElement('div');
+                    details.className = 'achievement-details';
+                    
+                    const title = document.createElement('div');
+                    title.className = 'achievement-title';
+                    title.innerHTML = `
+                        ${achievement.title}
+                        <span class="achievement-badge">${achievement.rarity}</span>
+                    `;
+                    
+                    const desc = document.createElement('div');
+                    desc.className = 'achievement-desc';
+                    desc.textContent = achievement.desc;
+                    
+                    details.appendChild(title);
+                    details.appendChild(desc);
+                    
+                    if (!isEarned && progress < 100) {
+                        const progressContainer = document.createElement('div');
+                        progressContainer.className = 'achievement-progress';
+                        
+                        const progressBar = document.createElement('div');
+                        progressBar.className = 'progress-bar';
+                        
+                        const progressText = document.createElement('div');
+                        progressText.className = 'progress-text';
+                        progressText.textContent = `${Math.round(progress)}% Complete`;
+                        
+                        progressContainer.appendChild(progressBar);
+                        details.appendChild(progressContainer);
+                        details.appendChild(progressText);
+                        
+                        // Animate progress bar
+                        setTimeout(() => {
+                            progressBar.style.width = `${progress}%`;
+                        }, 100 + index * 100);
+                    }
+                    
+                    achievementItem.appendChild(icon);
+                    achievementItem.appendChild(details);
+                    container.appendChild(achievementItem);
+                });
+            }
+
+            window.filterAchievements = function(filter) {
+                currentFilter = filter;
+                
+                // Update filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                event.target.classList.add('active');
+                
+                // Re-render achievements with current data
+                const username = JSON.parse(localStorage.getItem('currentUser') || 'null')?.username;
+                if (username) {
+                    fetch(`/api/get-scores?username=${username}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const scores = data.data.scores || {};
+                                const earnedAchievements = scores.achievements?.flappybird || [];
+                                renderAchievements(document.getElementById('achievements-list'), scores, earnedAchievements);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error filtering achievements:', error);
+                        });
+                }
+            };
+
+            // Initialize
+            loadAchievements();
+        });
+    </script>
+</body>
+</html>

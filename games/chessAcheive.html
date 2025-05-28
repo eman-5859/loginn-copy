@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Achievements</title>
+    <link rel="stylesheet" href="../dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .achievements-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            border: 2px solid #05d9e8;
+            box-shadow: 0 0 20px rgba(5, 217, 232, 0.3);
+        }
+
+        .achievements-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #05d9e8;
+            text-shadow: 0 0 10px #05d9e8;
+            font-size: 1.8rem;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border-left: 5px solid #05d9e8;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(5, 217, 232, 0.3);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            margin-right: 20px;
+            color: #FFD700;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .achievement-locked {
+            color: #555;
+        }
+
+        .achievement-details {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .achievement-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        .achievement-progress {
+            height: 5px;
+            background: #333;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #05d9e8;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .back-button {
+            display: block;
+            margin: 30px auto 10px;
+            padding: 12px 25px;
+            background: #05d9e8;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            width: 250px;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #04c0d0;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(5, 217, 232, 0.5);
+        }
+
+        .achievement-badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            background: #05d9e8;
+            color: black;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stat-box {
+            background: rgba(5, 217, 232, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #05d9e8;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #05d9e8;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .achievement-category {
+            color: #05d9e8;
+            margin: 30px 0 15px;
+            border-bottom: 2px solid #05d9e8;
+            padding-bottom: 5px;
+            font-size: 1.2rem;
+        }
+          /* Optional background grids or gradients */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, #001f1f, #000);
+            z-index: -2;
+        }
+
+        .pixel-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="pixel-grid"></div>
+    
+    <div class="achievements-container">
+        <h1 class="achievements-header">CHESS ACHIEVEMENTS</h1>
+        
+        <div class="stats-summary">
+            <div class="stat-box">
+                <div class="stat-value" id="total-wins">0</div>
+                <div class="stat-label">TOTAL WINS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="win-streak">0</div>
+                <div class="stat-label">CURRENT STREAK</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="total-plays">0</div>
+                <div class="stat-label">TOTAL GAMES</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="checkmates">0</div>
+                <div class="stat-label">CHECKMATES</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="promotions">0</div>
+                <div class="stat-label">PROMOTIONS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="draws">0</div>
+                <div class="stat-label">DRAWS</div>
+            </div>
+        </div>
+        
+        <div id="achievements-list">
+            <!-- Achievements will be loaded here -->
+        </div>
+        
+        <a href="../dashboard.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> BACK TO DASHBOARD
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedUser = localStorage.getItem('currentUser');
+            const username = storedUser ? JSON.parse(storedUser).username : null;
+            
+            const chessAchievements = [
+                // Basic Achievements
+                { 
+                    id: 'chess-1', 
+                    title: 'First Victory', 
+                    desc: 'Win your first chess game',
+                    condition: (scores) => scores.chess_wins > 0,
+                    progress: (scores) => scores.chess_wins > 0 ? 100 : 0,
+                    rarity: 'common',
+                    category: 'basic'
+                },
+                { 
+                    id: 'chess-2', 
+                    title: 'Checkmate!', 
+                    desc: 'Win by checkmate',
+                    condition: (scores) => scores.checkmates > 0,
+                    progress: (scores) => scores.checkmates > 0 ? 100 : 0,
+                    rarity: 'common',
+                    category: 'basic'
+                },
+                { 
+                    id: 'chess-3', 
+                    title: 'Pawn to Queen', 
+                    desc: 'Promote a pawn to queen',
+                    condition: (scores) => scores.promotions > 0,
+                    progress: (scores) => scores.promotions > 0 ? 100 : 0,
+                    rarity: 'common',
+                    category: 'basic'
+                },
+                
+                // Milestone Achievements
+                { 
+                    id: 'chess-4', 
+                    title: 'Novice Player', 
+                    desc: 'Play 10 chess games',
+                    condition: (scores) => scores.chess_plays >= 10,
+                    progress: (scores) => Math.min((scores.chess_plays || 0) / 10 * 100, 100),
+                    rarity: 'uncommon',
+                    category: 'milestone'
+                },
+                { 
+                    id: 'chess-5', 
+                    title: 'Seasoned Player', 
+                    desc: 'Win 10 chess games',
+                    condition: (scores) => scores.chess_wins >= 10,
+                    progress: (scores) => Math.min((scores.chess_wins || 0) / 10 * 100, 100),
+                    rarity: 'uncommon',
+                    category: 'milestone'
+                },
+                { 
+                    id: 'chess-6', 
+                    title: 'Grandmaster', 
+                    desc: 'Win 50 chess games',
+                    condition: (scores) => scores.chess_wins >= 50,
+                    progress: (scores) => Math.min((scores.chess_wins || 0) / 50 * 100, 100),
+                    rarity: 'rare',
+                    category: 'milestone'
+                },
+                
+                // Skill Achievements
+                { 
+                    id: 'chess-7', 
+                    title: 'Fork Master', 
+                    desc: 'Execute 5 forks in games',
+                    condition: (scores) => scores.forks >= 5,
+                    progress: (scores) => Math.min((scores.forks || 0) / 5 * 100, 100),
+                    rarity: 'uncommon',
+                    category: 'skill'
+                },
+                { 
+                    id: 'chess-8', 
+                    title: 'Pin Expert', 
+                    desc: 'Execute 5 pins in games',
+                    condition: (scores) => scores.pins >= 5,
+                    progress: (scores) => Math.min((scores.pins || 0) / 5 * 100, 100),
+                    rarity: 'uncommon',
+                    category: 'skill'
+                },
+                { 
+                    id: 'chess-9', 
+                    title: 'Castling King', 
+                    desc: 'Castle in 5 different games',
+                    condition: (scores) => scores.castlings >= 5,
+                    progress: (scores) => Math.min((scores.castlings || 0) / 5 * 100, 100),
+                    rarity: 'uncommon',
+                    category: 'skill'
+                },
+                { 
+                    id: 'chess-10', 
+                    title: 'En Passant', 
+                    desc: 'Capture en passant',
+                    condition: (scores) => scores.en_passants > 0,
+                    progress: (scores) => scores.en_passants > 0 ? 100 : 0,
+                    rarity: 'rare',
+                    category: 'skill'
+                },
+                
+                // Special Achievements
+                { 
+                    id: 'chess-11', 
+                    title: 'Fool\'s Mate', 
+                    desc: 'Win in 2 moves (Fool\'s Mate)',
+                    condition: (scores) => scores.fools_mate > 0,
+                    progress: (scores) => scores.fools_mate > 0 ? 100 : 0,
+                    rarity: 'epic',
+                    category: 'special'
+                },
+                { 
+                    id: 'chess-12', 
+                    title: 'Scholar\'s Mate', 
+                    desc: 'Win in 4 moves (Scholar\'s Mate)',
+                    condition: (scores) => scores.scholars_mate > 0,
+                    progress: (scores) => scores.scholars_mate > 0 ? 100 : 0,
+                    rarity: 'rare',
+                    category: 'special'
+                },
+                { 
+                    id: 'chess-13', 
+                    title: 'Perfect Defense', 
+                    desc: 'Win without losing any pieces',
+                    condition: (scores) => scores.perfect_defense > 0,
+                    progress: (scores) => scores.perfect_defense > 0 ? 100 : 0,
+                    rarity: 'epic',
+                    category: 'special'
+                },
+                { 
+                    id: 'chess-14', 
+                    title: 'Comeback King', 
+                    desc: 'Win from a losing position',
+                    condition: (scores) => scores.comeback_wins > 0,
+                    progress: (scores) => scores.comeback_wins > 0 ? 100 : 0,
+                    rarity: 'epic',
+                    category: 'special'
+                },
+                { 
+                    id: 'chess-15', 
+                    title: 'Pawn Storm', 
+                    desc: 'Promote 3 pawns in one game',
+                    condition: (scores) => scores.pawn_storm > 0,
+                    progress: (scores) => scores.pawn_storm > 0 ? 100 : 0,
+                    rarity: 'legendary',
+                    category: 'special'
+                }
+            ];
+
+            function loadAchievements() {
+                const achievementsList = document.getElementById('achievements-list');
+                achievementsList.innerHTML = '';
+                
+                if (!username) {
+                    achievementsList.innerHTML = `
+                        <div class="achievement-item" style="text-align: center; border-left-color: #555;">
+                            <div class="achievement-details">
+                                <p style="color: white;">Please log in to view your achievements</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                fetch(`/api/get-scores?username=${username}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const scores = data.data.scores || {};
+                            const earnedAchievements = data.data.scores?.achievements?.chess || [];
+                            
+                            // Update stats summary
+                            document.getElementById('total-wins').textContent = scores.chess_wins || '0';
+                            document.getElementById('win-streak').textContent = scores.current_streaks?.chess || '0';
+                            document.getElementById('total-plays').textContent = scores.chess_plays || '0';
+                            document.getElementById('checkmates').textContent = scores.checkmates || '0';
+                            document.getElementById('promotions').textContent = scores.promotions || '0';
+                            document.getElementById('draws').textContent = scores.chess_draws || '0';
+                            
+                            // Group achievements by category
+                            const categories = {
+                                basic: [],
+                                milestone: [],
+                                skill: [],
+                                special: []
+                            };
+                            
+                            chessAchievements.forEach(achievement => {
+                                const isEarned = earnedAchievements.includes(achievement.id) || 
+                                                achievement.condition(scores);
+                                const progress = achievement.progress(scores);
+                                const category = achievement.category || 'basic';
+                                
+                                if (!categories[category]) {
+                                    categories[category] = [];
+                                }
+                                
+                                categories[category].push({
+                                    ...achievement,
+                                    isEarned,
+                                    progress
+                                });
+                            });
+                            
+                            // Display achievements by category
+                            for (const [category, achievements] of Object.entries(categories)) {
+                                if (achievements.length === 0) continue;
+                                
+                                const categoryTitle = document.createElement('h3');
+                                categoryTitle.className = 'achievement-category';
+                                categoryTitle.textContent = category.toUpperCase();
+                                achievementsList.appendChild(categoryTitle);
+                                
+                                achievements.forEach(achievement => {
+                                    const achievementItem = document.createElement('div');
+                                    achievementItem.className = 'achievement-item';
+                                    if (achievement.isEarned) {
+                                        achievementItem.style.borderLeftColor = '#FFD700';
+                                    }
+                                    
+                                    const icon = document.createElement('div');
+                                    icon.className = 'achievement-icon';
+                                    icon.innerHTML = achievement.isEarned ? 
+                                        '<i class="fas fa-trophy"></i>' : 
+                                        '<i class="fas fa-lock"></i>';
+                                    
+                                    const details = document.createElement('div');
+                                    details.className = 'achievement-details';
+                                    
+                                    const title = document.createElement('div');
+                                    title.className = 'achievement-title';
+                                    title.textContent = achievement.title;
+                                    
+                                    if (achievement.rarity) {
+                                        const rarityBadge = document.createElement('span');
+                                        rarityBadge.className = 'achievement-badge';
+                                        rarityBadge.textContent = achievement.rarity.toUpperCase();
+                                        title.appendChild(rarityBadge);
+                                    }
+                                    
+                                    const desc = document.createElement('div');
+                                    desc.className = 'achievement-desc';
+                                    desc.textContent = achievement.desc;
+                                    
+                                    const progressContainer = document.createElement('div');
+                                    progressContainer.className = 'achievement-progress';
+                                    
+                                    const progressBar = document.createElement('div');
+                                    progressBar.className = 'progress-bar';
+                                    progressBar.style.width = `${achievement.progress}%`;
+                                    
+                                    progressContainer.appendChild(progressBar);
+                                    details.appendChild(title);
+                                    details.appendChild(desc);
+                                    
+                                    if (!achievement.isEarned) {
+                                        details.appendChild(progressContainer);
+                                    }
+                                    
+                                    achievementItem.appendChild(icon);
+                                    achievementItem.appendChild(details);
+                                    
+                                    achievementsList.appendChild(achievementItem);
+                                });
+                            }
+                        } else {
+                            achievementsList.innerHTML = `
+                                <div class="achievement-item" style="text-align: center; border-left-color: #555;">
+                                    <div class="achievement-details">
+                                        <p style="color: white;">${data.message}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading achievements:', error);
+                        achievementsList.innerHTML = `
+                            <div class="achievement-item" style="text-align: center; border-left-color: #555;">
+                                <div class="achievement-details">
+                                    <p style="color: white;">Error loading achievements</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+            }
+
+            loadAchievements();
+        });
+    </script>
+</body>
+</html>

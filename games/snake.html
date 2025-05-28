@@ -305,7 +305,59 @@
       restartBtn.addEventListener('click', initGame);
       exitGameBtn.addEventListener('click', () => window.location.href = '../dashboard.html');
 
+
       initGame();
+
+      // After game ends
+if (username) {
+    fetch('/api/check-achievements', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            game: 'snake'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && data.data.new_achievements.length > 0) {
+            // Show achievement unlocked notification
+            data.data.new_achievements.forEach(achievementId => {
+                const achievement = GAME_ACHIEVEMENTS.snake.find(a => a.id === achievementId);
+                if (achievement) {
+                    showAchievementUnlocked(achievement.title);
+                }
+            });
+        }
+    });
+}
+
+function showAchievementUnlocked(title) {
+    const notification = document.createElement('div');
+    notification.className = 'achievement-notification';
+    notification.innerHTML = `
+        <div class="achievement-notification-content">
+            <i class="fas fa-trophy"></i>
+            <div>
+                <h3>ACHIEVEMENT UNLOCKED!</h3>
+                <p>${title}</p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 3000);
+    }, 100);
+}
     });
   </script>
 </body>
