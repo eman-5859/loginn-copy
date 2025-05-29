@@ -82,8 +82,8 @@ body {
     width: 320px;
     padding: 20px;
     background: rgba(0, 0, 0, 0.7);
-    border: 4px solid #f200ff ;
-    box-shadow: 0 0 10px #f200ff, inset 0 0 10px #f200ff;
+    border: 4px solid #c300ff ;
+    box-shadow: 0 0 10px #c300ff, inset 0 0 10px #c300ff;
     position: relative;
     z-index: 2;
 }
@@ -98,7 +98,7 @@ body {
 }
 
 .pixel-logo span {
-    color: #f200ff;
+    color: #c300ff;
 }
 
 .pixel-input {
@@ -124,13 +124,13 @@ body {
     width: 100%;
     height: 2px;
     background: #ccb400;
-    box-shadow: 0 2px 0  #f200ff;
+    box-shadow: 0 2px 0  #c300ff;
 }
 
 .pixel-button {
     width: 100%;
     padding: 12px;
-    background:  #f200ff;
+    background:  #c300ff;
     color: #fff;
     border: none;
     font-family: 'Press Start 2P', cursive;
@@ -161,7 +161,7 @@ body {
 }
 
 .pixel-links a:hover {
-    color:#f200ff ;
+    color:#c300ff;
 }
 
 .pixel-score {
@@ -178,7 +178,7 @@ body {
 }
 
 @keyframes pulse {
-    from { background-color:#f200ff ; box-shadow: 0 0 5px #f200ff; }
+    from { background-color:#c300ff ; box-shadow: 0 0 5px #c300ff; }
     to { background-color: #ccb400; box-shadow: 0 0 20px #ccb400; }
 }
 
@@ -246,7 +246,7 @@ input[type="email"] {
 }
 
 .sound-toggle:hover {
-    border-color:#f200ff ;
+    border-color:#c300ff ;
 }
 
 /* Pixel Explosion Styles */
