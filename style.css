@@ -37,11 +37,11 @@ body {
     }
     /* Button styling override to match new theme */
     #btn, #btn2 {
-      background: #007acc;
+      background: #ccb400;
       color: #fff;
     }
     #btn:hover, #btn2:hover {
-      background: #005fa3;
+      background: #ccb400 ;
     }
 .pixel-background {
     position: fixed;
@@ -82,23 +82,23 @@ body {
     width: 320px;
     padding: 20px;
     background: rgba(0, 0, 0, 0.7);
-    border: 4px solid #2200ff;
-    box-shadow: 0 0 10px #2200ff, inset 0 0 10px #2200ff;
+    border: 4px solid #f200ff ;
+    box-shadow: 0 0 10px #f200ff, inset 0 0 10px #f200ff;
     position: relative;
     z-index: 2;
 }
 
 .pixel-logo {
     text-align: center;
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 30px;
-    color: #00ffff;
-    text-shadow: 3px 3px 0 #2200ff, 5px 5px 0 #000;
+    color: #ccb400;
+    text-shadow: 3px 3px 0 #ccb400, 5px 5px 0 #000;
     letter-spacing: 2px;
 }
 
 .pixel-logo span {
-    color: #2200ff;
+    color: #f200ff;
 }
 
 .pixel-input {
@@ -123,14 +123,14 @@ body {
     left: 0;
     width: 100%;
     height: 2px;
-    background: #00ffff;
-    box-shadow: 0 2px 0 #2200ff;
+    background: #ccb400;
+    box-shadow: 0 2px 0  #f200ff;
 }
 
 .pixel-button {
     width: 100%;
     padding: 12px;
-    background: #2200ff;
+    background:  #f200ff;
     color: #fff;
     border: none;
     font-family: 'Press Start 2P', cursive;
@@ -143,8 +143,8 @@ body {
 }
 
 .pixel-button:hover {
-    background: #00ffff;
-    box-shadow: 0 0 10px #00ffff;
+    background:#ccb400 ;
+    box-shadow: 0 0 10px #ccb400;
     animation: glitch 0.5s linear infinite;
 }
 
@@ -156,19 +156,19 @@ body {
 }
 
 .pixel-links a {
-    color: #ffff00;
+    color: #ccb400;
     text-decoration: none;
 }
 
 .pixel-links a:hover {
-    color: #2200ff;
+    color:#f200ff ;
 }
 
 .pixel-score {
     text-align: center;
     margin-top: 20px;
     font-size: 12px;
-    color: #ffff00;
+    color: #ccb400;
     animation: blink 1s infinite alternate;
 }
 
@@ -178,8 +178,8 @@ body {
 }
 
 @keyframes pulse {
-    from { background-color: #2200ff; box-shadow: 0 0 5px #2200ff; }
-    to { background-color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+    from { background-color:#f200ff ; box-shadow: 0 0 5px #f200ff; }
+    to { background-color: #ccb400; box-shadow: 0 0 20px #ccb400; }
 }
 
 @keyframes glitch {
@@ -235,7 +235,7 @@ input[type="email"] {
     width: 30px;
     height: 30px;
     background: #000;
-    border: 2px solid #00ffff;
+    border: 2px solid #ccb400;
     color: #fff;
     cursor: pointer;
     font-size: 16px;
@@ -246,7 +246,7 @@ input[type="email"] {
 }
 
 .sound-toggle:hover {
-    border-color: #2200ff;
+    border-color:#f200ff ;
 }
 
 /* Pixel Explosion Styles */
